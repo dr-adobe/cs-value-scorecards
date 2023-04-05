@@ -11,4 +11,6 @@ export default async function decorate(block) {
   cell.innerHTML = json;
   row.append(cell);
   table.append(row);
+  block.innerHTML = '';
+  block.append(table);
 }
