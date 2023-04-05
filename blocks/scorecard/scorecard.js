@@ -17,8 +17,8 @@ export default async function decorate(block) {
   const json = await res.json();
   const data = json.data[0];
 
-  var headers = [];
-  const headerData = JSON.parse(data._headers);
+  let headers = [];
+  const headerData = data._headers.replace(/[{}]/g, '[');
   for (let headerName of headerData) {
     headers.push(headerName);
   }
