@@ -16,6 +16,7 @@ function cleanJSON(value) {
   returnValue = returnValue.split(",");
   return returnValue;
 }
+
 export default async function decorate(block) {
   const link = block.querySelector('a');
   const url = link.href
@@ -64,9 +65,9 @@ export default async function decorate(block) {
   for (let key in data) {
     row = buildRow();
     let scoreCardRow = cleanJSON(data[key]);
-    for (let cell in scoreCardRow) {
+    for (let entry in scoreCardRow) {
       cell = buildCell();
-      cell.innerHTML = scoreCardRow[cell];
+      cell.innerHTML = scoreCardRow[entry];
       row.append(cell);
     }
     table.append(row);
