@@ -12,10 +12,8 @@ function buildRow() {
 
 function cleanJSON(value) {
   let returnValue = value.replaceAll(/[{]/g, '[');
-  returnValue = returnValue.replaceAll(/[}]/g, ']');
-  returnValue = returnValue.replaceAll(',,', ',"",');
-  returnValue = returnValue.replaceAll('\n', '\\n');
-  returnValue = JSON.parse(returnValue);
+  returnValue = returnValue.replaceAll(/\[]{}"/g, '');
+  returnValue = returnValue.split(",");
   return returnValue;
 }
 export default async function decorate(block) {
