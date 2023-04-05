@@ -10,6 +10,14 @@ function buildRow() {
   return document.createElement('tr');
 }
 
+function cleanJSON(value) {
+  let returnValue = value.replaceAll(/[{]/g, '[');
+  returnValue = returnValue.replaceAll(/[}]/g, ']');
+  returnValue = returnValue.replaceAll(',,', ',"",');
+  returnValue = returnValue.replaceAll('\n', '\\n');
+  returnValue = JSON.parse(returnValue);
+  return returnValue;
+}
 export default async function decorate(block) {
   const link = block.querySelector('a');
   const url = link.href
@@ -18,11 +26,7 @@ export default async function decorate(block) {
   const data = json.data[0];
 
   let headers = [];
-  let headerData = data._headers.replace(/[{]/g, '[');
-  headerData = headerData.replace(/[}]/g, ']');
-  headerData = headerData.replaceAll(',,', ',"",');
-  headerData = headerData.replaceAll('\n', '\\n');
-  headerData = JSON.parse(headerData);
+  let headerData = cleanJSON(data._headers);
   for (let headerName of headerData) {
     headers.push(headerName);
   }
@@ -33,10 +37,10 @@ export default async function decorate(block) {
   table.append(th);
   let row = buildRow();
   let cell = buildCell('4');
-  cell.innerHTML = data['Initial Implementation Score'];
+  cell.innerHTML = Math.floor(data['Initial Implementation Score'] * 100);
   row.append(cell);
   cell = buildCell('3');
-  cell.innerHTML = data['CX Scale Score'];
+  cell.innerHTML = Math.floor(data['CX Scale Score'] * 100);
   row.append(cell);
   table.append(row);
 
@@ -58,6 +62,17 @@ export default async function decorate(block) {
     row.append(cell);
   }
   table.append(row);
+
+  for (let key in data) {
+    row = buildRow();
+    let scoreCardRow = cleanJSON(data[key]);
+    for (let cell in scoreCardRow) {
+      cell = buildCell();
+      cell.innerHTML = scoreCardRow[cell];
+      row.append(cell);
+    }
+    table.append(row);
+  }
 
   block.innerHTML = '';
   block.append(table);
