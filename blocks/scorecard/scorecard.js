@@ -20,7 +20,8 @@ export default async function decorate(block) {
   let headers = [];
   let headerData = data._headers.replace(/[{]/g, '[');
   headerData = headerData.replace(/[}]/g, ']');
-  headerData = headerData.replaceAll(',,', ',null,');
+  headerData = headerData.replaceAll(',,', ',"",');
+  headerData = headerData.replaceAll('\n', '\\n');
   headerData = JSON.parse(headerData);
   for (let headerName of headerData) {
     headers.push(headerName);
