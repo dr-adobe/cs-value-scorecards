@@ -8,7 +8,7 @@ export default async function decorate(block) {
   const row = document.createElement('tr');
   const cell = document.createElement('td');
 
-  cell.innerHTML = json;
+  cell.innerHTML = JSON.stringify(json);
   row.append(cell);
   table.append(row);
   block.innerHTML = '';
